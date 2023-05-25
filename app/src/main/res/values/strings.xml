@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">FELIPE\'s Android Labs</string>
-    <string name="hello_message">Hello World!!</string>
+    <string name="hello_message">"Your edit text has : "</string>
     <string name="button_message">I\'m a button</string>
+    <string name="editmessage" translatable="false">I\'m an EditText</string>
+    <string name="hinttext" translatable="false">Write something here</string>
 </resources>
