@@ -4,7 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import algonquin.cst2335.barb0264.data.MainActivityModel;
 import algonquin.cst2335.barb0264.databinding.ActivityMainBinding; // 6
@@ -23,13 +27,55 @@ public class MainActivity extends AppCompatActivity {
 
         variableBinding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(variableBinding.getRoot()); // This recalculates the width rotate phone
+        //listen for changes to MutableLiveData
+        model.checkboxState.observe(this, (newValue) -> {
+            variableBinding.theCheckbox.setChecked((newValue));
+        });
+
+        model.switchState.observe(this, (newValue) -> {
+            variableBinding.theSwitch.setChecked((newValue));
+        });
+
+        model.radioButtonState.observe(this, (newValue) -> {
+            variableBinding.theRadioButton.setChecked((newValue));
+        });
+
 
         // it has to have 2 parameters a,b because the original one has buttonView and ischecked.
-        variableBinding.theCheckbox.setOnCheckedChangeListener( (btn, isChecked) -> { } );
+        variableBinding.theCheckbox.setOnCheckedChangeListener((btn, isChecked) -> {
+            model.checkboxState.postValue(isChecked);
+            Toast.makeText(this, "CheckBox state: " + isChecked, Toast.LENGTH_SHORT).show();
+        });
 
-        variableBinding.theText.setText (model.theText); // compoungWidgets
+        variableBinding.theSwitch.setOnCheckedChangeListener((btn, isChecked) -> {
+            model.switchState.postValue(isChecked);
+            Toast.makeText(this, "Switch state: " + isChecked, Toast.LENGTH_SHORT).show();
+        });
 
-        variableBinding.theButton.setOnClickListener( ( click ) -> {
+        variableBinding.theRadioButton.setOnCheckedChangeListener((btn, isChecked) -> {
+            model.radioButtonState.postValue(isChecked);
+            Toast.makeText(this, "RadioButton state: " + isChecked, Toast.LENGTH_SHORT).show();
+        });
+
+        variableBinding.myImageView.setOnClickListener((click) -> {
+
+                Toast.makeText(this, "ImageView clicked", Toast.LENGTH_SHORT).show();
+            }
+        );
+
+        // ImageButton click listener
+        variableBinding.myImageButton.setOnClickListener((click) -> {
+                // Handle ImageButton click event
+                int width = click.getWidth();
+                int height = click.getHeight();
+                String message = "The width = " + width + " and height = " + height;
+                Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        });
+
+
+        variableBinding.theText.setText(model.theText); // compoungWidgets
+
+        variableBinding.theButton.setOnClickListener((click) -> {
 
             model.theText = "You clicked me!!";
 
