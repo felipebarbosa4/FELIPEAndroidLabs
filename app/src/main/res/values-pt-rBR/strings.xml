@@ -3,4 +3,5 @@
     <string name="app_name">FELIPE\'s Android Labs</string>
     <string name="hello_message">Ola Mundo!</string>
     <string name="button_message">Eu sou um botão</string>
+    <string name="spins_message">Girar Bandeira</string>
 </resources>
