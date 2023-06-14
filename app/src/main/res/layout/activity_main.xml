@@ -4,7 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:layout_marginTop="27dp"
+    android:layout_marginBottom="27dp"
+    android:layout_marginLeft="48dp"
+    android:layout_marginRight="48dp"
+    >
 
     <ImageView
         android:id="@+id/imageView"
@@ -25,7 +30,9 @@
         app:layout_constraintEnd_toStartOf="@+id/button7"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:nextFocusDown="@id/spin_switch"
+        android:nextFocusRight="@id/button7" />
 
     <Button
         android:id="@+id/button7"
@@ -36,7 +43,10 @@
         app:layout_constraintEnd_toStartOf="@+id/button8"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/button6"
-        app:layout_constraintTop_toTopOf="@+id/button6" />
+        app:layout_constraintTop_toTopOf="@+id/button6"
+        android:nextFocusDown="@id/spin_switch"
+        android:nextFocusRight="@id/button8"
+        android:nextFocusLeft="@id/button6" />
 
     <Button
         android:id="@+id/button8"
@@ -47,7 +57,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/button7"
-        app:layout_constraintTop_toTopOf="@+id/button7" />
+        app:layout_constraintTop_toTopOf="@+id/button7"
+        android:nextFocusDown="@id/spin_switch"
+        android:nextFocusLeft="@id/button7"
+        android:nextFocusRight="@id/button6" />
 
     <Switch
         android:id="@+id/spin_switch"
