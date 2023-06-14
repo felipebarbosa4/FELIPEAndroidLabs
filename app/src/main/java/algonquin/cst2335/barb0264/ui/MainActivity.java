@@ -28,16 +28,20 @@ public class MainActivity extends AppCompatActivity {
         variableBinding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(variableBinding.getRoot()); // This recalculates the width rotate phone
         //listen for changes to MutableLiveData
+
+        
         model.checkboxState.observe(this, (newValue) -> {
             variableBinding.theCheckbox.setChecked((newValue));
+            variableBinding.theSwitch.setChecked((newValue));
+            variableBinding.theRadioButton.setChecked((newValue));
         });
 
         model.switchState.observe(this, (newValue) -> {
-            variableBinding.theSwitch.setChecked((newValue));
+
         });
 
         model.radioButtonState.observe(this, (newValue) -> {
-            variableBinding.theRadioButton.setChecked((newValue));
+
         });
 
 
@@ -48,12 +52,12 @@ public class MainActivity extends AppCompatActivity {
         });
 
         variableBinding.theSwitch.setOnCheckedChangeListener((btn, isChecked) -> {
-            model.switchState.postValue(isChecked);
+            model.checkboxState.postValue(isChecked);
             Toast.makeText(this, "Switch state: " + isChecked, Toast.LENGTH_SHORT).show();
         });
 
         variableBinding.theRadioButton.setOnCheckedChangeListener((btn, isChecked) -> {
-            model.radioButtonState.postValue(isChecked);
+            model.checkboxState.postValue(isChecked);
             Toast.makeText(this, "RadioButton state: " + isChecked, Toast.LENGTH_SHORT).show();
         });
 

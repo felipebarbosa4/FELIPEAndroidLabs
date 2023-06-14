@@ -9,26 +9,27 @@
     >
 
     <TextView
-        android:textSize="30dp"
         android:id="@+id/theText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/hello_message" />
-
+        android:text="@string/hello_message"
+        android:textAlignment="center"
+        android:textSize="30dp" />
+x
     <Button
         android:id="@+id/theButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="50dp"
         android:text="@string/button_message"
-    />
+        android:textAlignment="center" />
 
     <EditText
-        android:textSize="30dp"
         android:id="@+id/theEdittext"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="Hello There"
-        android:layout_width="wrap_content"/>
+        android:textSize="30dp" />
 
     <CheckBox
         android:id="@+id/theCheckbox"
@@ -59,6 +60,7 @@
         android:id="@+id/myImageButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:clickable="true"
         android:src="@drawable/logo_algonquin" />
 
 </LinearLayout>
