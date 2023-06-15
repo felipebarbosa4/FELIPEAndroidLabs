@@ -1,40 +1,72 @@
 package algonquin.cst2335.barb0264;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.Switch;
 
+import algonquin.cst2335.barb0264.databinding.ActivityMainBinding;
+
 
 public class MainActivity extends AppCompatActivity {
 
-    ImageView imgView;
-    Switch sw;
+    private static String TAG = "MainActivity";
+    protected ActivityMainBinding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
-        imgView = findViewById(R.id.imageView);
-        sw = findViewById(R.id.spin_switch);
+        Log.w(TAG, "OnCreate(). First function that gets created when an application is launched");
 
-        sw.setOnCheckedChangeListener((btn, isChecked) -> {
-            if (isChecked)
-            {
-                RotateAnimation rotate = new RotateAnimation(0, 360, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-                rotate.setDuration(5000);
-                rotate.setRepeatCount(Animation.INFINITE);
-                rotate.setInterpolator(new LinearInterpolator());
 
-                imgView.startAnimation(rotate);
-            }
-            else {
-                imgView.clearAnimation();
-            }
+       binding = ActivityMainBinding.inflate(getLayoutInflater());
 
-        });
+       setContentView( binding.getRoot() );
+
+       binding.loginButton.setOnClickListener( (v) -> {
+
+           Log.w(TAG, "You Clicked the Button");
+
+           // which page do i go to:   leaving here       going to SecondActivity
+           Intent nextPage = new Intent(this, SecondActivity.class  );
+
+           //go to another page
+           startActivity(nextPage);
+
+       } );
     }
+    @Override// the app is now visible on screen, not listening for clicks
+    protected void onStart() {
+        Log.w(TAG, "onStart(). The application is now visible on screen.");
+        super.onStart();
+    }
+    @Override // garbage collected, app is gone
+    protected void onDestroy() {
+        Log.w(TAG, "onDestroy(). Any memory used by the application is freed.\n" +
+                "Starting new Activities.");
+        super.onDestroy();
+    }
+
+    @Override // leaving the screen, no longer listening for input
+    protected void onPause() {
+        Log.w(TAG, "onPause(). The application no longer responds to user input.");
+        super.onPause();
+    }
+    @Override
+    protected void onResume() {
+        Log.w(TAG, "onResume(). The application is now responding to user input.");
+        super.onResume();
+    }
+    @Override
+    protected void onStop() {
+        Log.w(TAG, "onStop(). The application is no longer visible.");
+        super.onStop();
+    }
+
 }
