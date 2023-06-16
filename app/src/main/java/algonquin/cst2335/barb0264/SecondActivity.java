@@ -20,7 +20,7 @@ import algonquin.cst2335.barb0264.databinding.ActivitySecondBinding;
 public class SecondActivity extends AppCompatActivity {
 
     ActivitySecondBinding binding;
-    ImageView profileImage = binding.imageView;
+    ImageView profileImage;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,7 +28,8 @@ public class SecondActivity extends AppCompatActivity {
         //loads the XML file /res/layout/activity_second.xml
         setContentView(binding.getRoot());
 
-
+        ImageView profileImage;
+        profileImage = binding.imageView;
 
 
         Intent nextPage = getIntent(); //return the Intent that got us here from FirstPage
@@ -46,6 +47,24 @@ public class SecondActivity extends AppCompatActivity {
         int something = nextPage.getIntExtra("SOMETHING", 0); // default if for when SOMETHING is not there
 
 
+        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        ActivityResultLauncher <Intent> cameraResult = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+
+                    @Override
+
+                    public void onActivityResult(ActivityResult result) {
+
+                        if (result.getResultCode() == Activity.RESULT_OK) {
+
+                            Intent data = result.getData();
+                            Bitmap thumbnail = data.getParcelableExtra("data");
+                            profileImage.setImageBitmap( thumbnail );
+
+                        }
+                    }
+                });
 
         binding.textView2.setText("Welcome back " + EMAIL);
 
@@ -53,24 +72,6 @@ public class SecondActivity extends AppCompatActivity {
         binding.changePictureButton.setOnClickListener( (v) -> {
 
 
-            Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            ActivityResultLauncher <Intent> cameraResult = registerForActivityResult(
-                    new ActivityResultContracts.StartActivityForResult(),
-                    new ActivityResultCallback<ActivityResult>() {
-
-                        @Override
-
-                        public void onActivityResult(ActivityResult result) {
-
-                            if (result.getResultCode() == Activity.RESULT_OK) {
-
-                                Intent data = result.getData();
-                                Bitmap thumbnail = data.getParcelableExtra("data");
-                                profileImage.setImageBitmap( thumbnail );
-
-                            }
-                        }
-                    });
             cameraResult.launch(cameraIntent);
         });
 
@@ -86,8 +87,9 @@ public class SecondActivity extends AppCompatActivity {
 
         binding.callNumberButton.setOnClickListener((v) -> {
 
+            String enteredPhoneNumber = binding.editTextPhone.getText().toString();
             Intent callIntent = new Intent(Intent.ACTION_DIAL);
-            callIntent.setData(Uri.parse("tel:" + phoneNumber));
+            callIntent.setData(Uri.parse("tel:" + enteredPhoneNumber));
             startActivity(callIntent);
         });
 
