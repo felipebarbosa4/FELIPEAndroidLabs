@@ -1,12 +1,14 @@
 package algonquin.cst2335.barb0264;
 
 public class ChatMessage {
-
     private String message;
     private String timeSent;
     private boolean isSentButton;
 
-    public ChatMessage(String m, String t, boolean sent) {
+    ChatMessage(){
+    }
+
+    ChatMessage(String m, String t, boolean sent){
         message = m;
         timeSent = t;
         isSentButton = sent;
@@ -16,11 +18,23 @@ public class ChatMessage {
         return message;
     }
 
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
     public String getTimeSent() {
         return timeSent;
     }
 
+    public void setTimeSent(String timeSent) {
+        this.timeSent = timeSent;
+    }
+
     public boolean isSentButton() {
         return isSentButton;
+    }
+
+    public void setSentButton(boolean sentButton) {
+        isSentButton = sentButton;
     }
 }

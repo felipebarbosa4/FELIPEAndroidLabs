@@ -1,9 +1,9 @@
 package algonquin.cst2335.barb0264;
 
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
@@ -15,16 +15,19 @@ import android.widget.TextView;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Objects;
 
 import algonquin.cst2335.barb0264.databinding.ActivityChatRoomBinding;
+import algonquin.cst2335.barb0264.databinding.ReceiveMessageBinding;
 import algonquin.cst2335.barb0264.databinding.SentMessageBinding;
 
 public class ChatRoom extends AppCompatActivity {
 
-
     ActivityChatRoomBinding binding;
     ChatRoomViewModel chatModel;
+    ArrayList<ChatMessage> chatMessages;// new ArrayList<>();
+    private RecyclerView.Adapter<MyRowHolder> myAdapter;
+
+
 
     @SuppressLint("NotifyDataSetChanged")
     @Override
@@ -35,61 +38,102 @@ public class ChatRoom extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         chatModel = new ViewModelProvider(this).get(ChatRoomViewModel.class);
-        ArrayList<String> messages = chatModel.messages.getValue();
+        chatMessages = chatModel.chatMessages.getValue();
 
+        binding.theRecycleView.setAdapter( myAdapter = new RecyclerView.Adapter<MyRowHolder>() {
 
-
-        RecyclerView.Adapter adapter = new RecyclerView.Adapter<MyRowHolder>() {
             @NonNull
             @Override
             public MyRowHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                SentMessageBinding rowBinding = SentMessageBinding.inflate(getLayoutInflater(), parent, false);
+                // inflates the row layout
+                // int ViewType is what layout should be loaded
+                if (viewType == 0){
+                    SentMessageBinding messageBinding = SentMessageBinding.inflate(getLayoutInflater(), parent, false);
 
-                // this will initialize the row variables:
-                return new MyRowHolder(rowBinding);
+                    // initialize row variables
+                    return new MyRowHolder( messageBinding.getRoot() );
+                } else {
+                    ReceiveMessageBinding messageBinding = ReceiveMessageBinding.inflate(getLayoutInflater(), parent, false);
 
+                    // initialize row variables
+                    return new MyRowHolder( messageBinding.getRoot() );
+                }
             }
 
             @Override
             public void onBindViewHolder(@NonNull MyRowHolder holder, int position) {
-                String obj = messages.get(position);
-                holder.messageText.setText(obj);
-
-                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-                String currentTime = sdf.format(new Date());
-                holder.timeText.setText(currentTime);
+                ChatMessage chatmessage = chatMessages.get(position);
+                // override the text in the rows
+                holder.messageText.setText(chatmessage.getMessage());
+                holder.timeText.setText(chatmessage.getTimeSent());
             }
 
             @Override
-            public int getItemCount() { //how many rows
-                return messages.size();
+            public int getItemCount() {
+
+                return chatMessages.size();
             }
-        };
 
-        binding.theRecycleView.setAdapter(adapter);
-        binding.theRecycleView.setLayoutManager(new LinearLayoutManager(this));
+            public int getItemViewType(int position) {
+                boolean isSentButton = chatMessages.get(position).isSentButton();
+                return isSentButton ? 0 : 1;
+            }
 
-        binding.submit.setOnClickListener( click -> {
-            String message = binding.messageInput.getText().toString();
-            messages.add(message);
-            chatModel.messages.postValue(messages); // Update messages in ViewModel
 
-            adapter.notifyItemInserted(messages.size()-1);
-            adapter.notifyDataSetChanged();
+        });
+// send button
+        binding.submit.setOnClickListener(click -> {
+            // create chat message object
+            ChatMessage chatmessage = new ChatMessage();
+            String text = binding.textInput.getEditText().getText().toString();
+            String time = new SimpleDateFormat("EEEE, dd-MMM-yyyy hh-mm-ss a").format(new Date());
 
-            binding.messageInput.setText(""); //REMOVE WHAT WAS TYPED
+            chatmessage.setMessage(text);
+            chatmessage.setTimeSent(time);
+            chatmessage.setSentButton(true);
+            chatMessages.add(chatmessage);
+
+            // notify the adapter
+            myAdapter.notifyItemInserted( chatMessages.size()-1 ); // by rows
+
+            // clears the previous text
+            binding.messageInput.setText("");
+
+
+
+        });
+
+        // receive button
+        binding.receive.setOnClickListener(click -> {
+            // create chat message object
+            ChatMessage chatmessage = new ChatMessage();
+            String text = binding.messageInput.getText().toString();
+            String time = new SimpleDateFormat("EEEE, dd-MMM-yyyy hh-mm-ss a").format(new Date());
+
+            chatmessage.setMessage(text);
+            chatmessage.setTimeSent(time);
+            chatmessage.setSentButton(false);
+            chatMessages.add(chatmessage);
+
+            // notify the adapter
+            myAdapter.notifyItemInserted( chatMessages.size()-1 ); // by rows
+
+            // clears the previous text
+            binding.messageInput.setText("");
+
         });
     }
 
+    // class represents one row and it holds the variables
     class MyRowHolder extends RecyclerView.ViewHolder {
-
         TextView messageText;
         TextView timeText;
 
-        public MyRowHolder(@NonNull SentMessageBinding binding) {
-            super(binding.getRoot());
-            messageText = binding.messageText;
-            timeText = binding.timeText;
+        // initializes variables
+        public MyRowHolder(@NonNull View itemView) {
+            super(itemView);
+            messageText = itemView.findViewById(R.id.messageText);
+            timeText = itemView.findViewById(R.id.timeText);
         }
     }
 }

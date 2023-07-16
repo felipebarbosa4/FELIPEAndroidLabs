@@ -3,6 +3,10 @@
     <string name="app_name">FELIPE\'s Android Labs</string>
     <string name="hello_message">Ola Mundo!</string>
     <string name="button_message">Eu sou um botão</string>
-    <string name="spins_message">Girar Bandeira</string>
     <string name="type_password">Digite a Senha</string>
+    <string name="enter_message_here">Digite aqui</string>
+    <string name="time">Hora</string>
+    <string name="message">Mensagem</string>
+    <string name="receive">RECEBER</string>
+    <string name="send">ENVIAR</string>
 </resources>

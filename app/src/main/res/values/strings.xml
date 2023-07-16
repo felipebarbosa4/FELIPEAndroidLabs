@@ -2,6 +2,10 @@
     <string name="app_name">FELIPE\'s Android Labs</string>
     <string name="hello_message">Hello World!!</string>
     <string name="button_message">I\'m a button</string>
-    <string name="spins_message">Spin flag</string>
     <string name="type_password">Type your password</string>
+    <string name="enter_message_here">Enter message here</string>
+    <string name="time">time</string>
+    <string name="message">message</string>
+    <string name="receive">RECEIVE</string>
+    <string name="send">SEND</string>
 </resources>
