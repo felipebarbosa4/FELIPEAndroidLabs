@@ -4,6 +4,7 @@ package algonquin.cst2335.barb0264;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
@@ -38,7 +39,7 @@ public class ChatRoom extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         chatModel = new ViewModelProvider(this).get(ChatRoomViewModel.class);
-        chatMessages = chatModel.chatMessages.getValue();
+        chatMessages = chatModel.chatMessages;
 
         binding.theRecycleView.setAdapter( myAdapter = new RecyclerView.Adapter<MyRowHolder>() {
 
@@ -81,6 +82,7 @@ public class ChatRoom extends AppCompatActivity {
 
 
         });
+        binding.theRecycleView.setLayoutManager(new LinearLayoutManager(this));
 // send button
         binding.submit.setOnClickListener(click -> {
             // create chat message object
